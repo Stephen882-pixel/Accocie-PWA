@@ -16,13 +16,19 @@ export default defineConfig({
   // A fixed port of our own. 5173 is shared with other local Vite apps, and
   // a service worker from one of them would keep serving its cached shell
   // on that origin. strictPort fails loudly instead of hopping ports.
+  //
+  // /api is passed through to the backend, so the app calls its own origin.
+  // That is what makes it work from a phone over a forwarded port or tunnel:
+  // only this port needs forwarding, with no CORS or http/https mismatch.
   server: {
     port: 5180,
     strictPort: true,
+    proxy: { "/api": "http://localhost:5002" },
   },
   preview: {
     port: 4180,
     strictPort: true,
+    proxy: { "/api": "http://localhost:5002" },
   },
   optimizeDeps: {
     // Only reached through `virtual:pwa-register`, which the dev dep scan
