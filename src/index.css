@@ -41,6 +41,11 @@
   --color-grey-700: #495057;
   --color-grey-900: #212529;
 
+  --color-error-50: #ffecec;
+  --color-error-700: #b42318;
+  --color-success-50: #e9f9ee;
+  --color-success-700: #237a46;
+
   --radius-control: 10px;
   --radius-card: 16px;
 }
