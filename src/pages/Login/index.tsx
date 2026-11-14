@@ -7,7 +7,8 @@ import TextField from "@/components/ui/TextField";
 import { toApiError } from "@/lib/api/apiError";
 import { useLogin } from "@/features/auth/mutations/auth";
 
-type LoginState = { email?: string; verified?: boolean; from?: string } | null;
+/** `notice` is a success message from the screen that sent the user here. */
+type LoginState = { email?: string; notice?: string; from?: string } | null;
 
 const Login = () => {
   const navigate = useNavigate();
@@ -50,8 +51,8 @@ const Login = () => {
       title="Sign in"
       subtitle="Welcome back to Acocie Stores."
     >
-      {state?.verified ? (
-        <Alert tone="success">Email verified. Sign in to start shopping.</Alert>
+      {state?.notice && !error ? (
+        <Alert tone="success">{state.notice}</Alert>
       ) : null}
       {error && error.code !== "EMAIL_NOT_VERIFIED" ? (
         <Alert tone="error">{error.message}</Alert>
@@ -73,7 +74,13 @@ const Login = () => {
           autoComplete="current-password"
           required
         />
-        <Button type="submit" isLoading={login.isPending} className="mt-2">
+        <Link
+          to="/forgot-password"
+          className="-mt-1 self-end py-2 text-sm font-medium text-primary"
+        >
+          Forgot password?
+        </Link>
+        <Button type="submit" isLoading={login.isPending}>
           Sign in
         </Button>
       </form>

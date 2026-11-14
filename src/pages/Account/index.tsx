@@ -1,4 +1,6 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
+import { ChevronRight, KeyRound } from "lucide-react";
+import Alert from "@/components/feedback/Alert";
 import Button from "@/components/ui/Button";
 import { buttonClass } from "@/components/ui/buttonStyles";
 import { useAuthUser } from "@/lib/auth/authStore";
@@ -26,11 +28,14 @@ const SignedOut = () => (
 const Account = () => {
   const user = useAuthUser();
   const signOut = useSignOut();
+  const notice = (useLocation().state as { notice?: string } | null)?.notice;
 
   if (!user) return <SignedOut />;
 
   return (
     <section className="flex flex-col gap-6 py-8">
+      {notice ? <Alert tone="success">{notice}</Alert> : null}
+
       <div className="flex items-center gap-4">
         <div className="flex size-14 items-center justify-center rounded-full bg-primary-light text-lg font-bold text-primary-dark">
           {user.firstName[0]}
@@ -50,6 +55,15 @@ const Account = () => {
           meanwhile.
         </p>
       ) : null}
+
+      <Link
+        to="/account/password"
+        className="flex min-h-14 items-center gap-3 rounded-card border border-grey-300 px-4 text-[15px] font-medium"
+      >
+        <KeyRound size={20} aria-hidden="true" className="text-grey-700" />
+        <span className="flex-1">Change password</span>
+        <ChevronRight size={20} aria-hidden="true" className="text-grey-700" />
+      </Link>
 
       <Button
         variant="secondary"

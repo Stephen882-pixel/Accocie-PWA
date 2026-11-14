@@ -6,9 +6,10 @@ import Button from "@/components/ui/Button";
 import TextField from "@/components/ui/TextField";
 import { toApiError } from "@/lib/api/apiError";
 import { useRegister } from "@/features/auth/mutations/auth";
-
-// Mirrors the API's rule: 8+ characters with upper case, lower case and a number.
-const PASSWORD_PATTERN = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}";
+import {
+  PASSWORD_HINT,
+  PASSWORD_PATTERN,
+} from "@/features/auth/utils/password";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -90,8 +91,8 @@ const Register = () => {
           type="password"
           autoComplete="new-password"
           pattern={PASSWORD_PATTERN}
-          title="At least 8 characters, with upper case, lower case and a number"
-          hint="At least 8 characters, with upper case, lower case and a number."
+          title={PASSWORD_HINT}
+          hint={PASSWORD_HINT}
           required
         />
         <TextField

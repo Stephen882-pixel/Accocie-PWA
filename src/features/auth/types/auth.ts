@@ -13,7 +13,7 @@ export interface LoginPayload {
   password: string;
 }
 
-export interface VerifyEmailPayload {
+export interface CodePayload {
   email: string;
   otpCode: string;
 }
@@ -21,6 +21,18 @@ export interface VerifyEmailPayload {
 export interface ResendCodePayload {
   email: string;
   purpose: "signup" | "password_reset";
+}
+
+export interface ResetPasswordPayload {
+  resetToken: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 export interface LoginResponse {

@@ -4,10 +4,12 @@ import { queryClient } from "@/lib/query/queryClient";
 import { AuthService } from "@/features/auth/api/authService";
 import { isBuyerRole } from "@/features/auth/utils/roles";
 import type {
+  ChangePasswordPayload,
+  CodePayload,
   LoginPayload,
   RegisterPayload,
   ResendCodePayload,
-  VerifyEmailPayload,
+  ResetPasswordPayload,
 } from "@/features/auth/types/auth";
 
 /**
@@ -39,13 +41,49 @@ export const useRegister = () =>
 
 export const useVerifyEmail = () =>
   useMutation({
-    mutationFn: (payload: VerifyEmailPayload) =>
-      AuthService.verifyEmail(payload),
+    mutationFn: (payload: CodePayload) => AuthService.verifyEmail(payload),
   });
 
 export const useResendCode = () =>
   useMutation({
     mutationFn: (payload: ResendCodePayload) => AuthService.resendCode(payload),
+  });
+
+export const useForgotPassword = () =>
+  useMutation({
+    mutationFn: (email: string) => AuthService.forgotPassword(email),
+  });
+
+export const useVerifyResetCode = () =>
+  useMutation({
+    mutationFn: (payload: CodePayload) => AuthService.verifyResetCode(payload),
+  });
+
+export const useResetPassword = () =>
+  useMutation({
+    mutationFn: (payload: ResetPasswordPayload) =>
+      AuthService.resetPassword(payload),
+  });
+
+/**
+ * Changing the password signs the account out everywhere (the API revokes
+ * every refresh token), so sign straight back in here with the new password
+ * to keep this device's session.
+ */
+export const useChangePassword = () =>
+  useMutation({
+    mutationFn: async (payload: ChangePasswordPayload) => {
+      await AuthService.changePassword(payload);
+
+      const { user } = authStore.getState();
+      if (!user) return;
+
+      const session = await AuthService.login({
+        email: user.email,
+        password: payload.newPassword,
+      });
+      authStore.getState().setSession(session);
+    },
   });
 
 /** Signs out locally even if the server call fails: the user asked to leave. */
