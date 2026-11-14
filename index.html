@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="description" content="Shop from local vendors on Acocie Stores." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Acocie" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
+
+    <title>Acocie Stores</title>
+
+    <!--
+      Boot loader: paints while the JS bundle downloads, so a slow load is
+      never a blank page. React replaces it on first render. It fades in after
+      300ms, so a fast load never flashes it. This file cannot read CSS
+      variables; the colours mirror --primary and --grey-* in src/index.css.
+    -->
+    <style>
+      .boot-loader {
+        display: flex;
+        min-height: 100svh;
+        align-items: center;
+        justify-content: center;
+        background: #ffffff;
+        opacity: 0;
+        animation: boot-loader-in 200ms ease-out 300ms forwards;
+      }
+      .boot-loader__spinner {
+        width: 32px;
+        height: 32px;
+        box-sizing: border-box;
+        border: 3px solid #e9ecef;
+        border-top-color: #dc143c;
+        border-radius: 50%;
+        animation: boot-loader-spin 800ms linear infinite;
+      }
+      @keyframes boot-loader-in {
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes boot-loader-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .boot-loader__spinner {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot-loader" role="status" aria-label="Loading">
+        <div class="boot-loader__spinner" aria-hidden="true"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

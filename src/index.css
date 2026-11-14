@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.5;
+  color: var(--color-ink);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+
+  /* ----- App shell -----
+     Every screen sits on this. Keep index.html's theme-color and the manifest
+     in vite.config.ts in step; neither can read a CSS variable. */
+  --app-shell-background: #ffffff;
+
+  /* Fixed bars' reserved space. Anything sized "between the bars" reads
+     these, so they must match the real bar heights. */
+  --nav-h: 56px;
+  --tabbar-h: 64px;
+
+  --shell-max-w: 40rem;
+  --shell-gutter: 1rem;
+}
+
+/* Brand tokens, exposed as Tailwind utilities (bg-primary, text-grey-700…). */
+@theme {
+  --color-background: var(--app-shell-background);
+  --color-ink: #111827;
+
+  --color-primary: #dc143c;
+  --color-primary-dark: #a50e2d;
+  --color-primary-light: #fff1f2;
+
+  --color-grey-50: #f8f9fa;
+  --color-grey-100: #f1f3f5;
+  --color-grey-200: #e9ecef;
+  --color-grey-300: #dee2e6;
+  --color-grey-400: #ced4da;
+  --color-grey-500: #adb5bd;
+  --color-grey-600: #868e96;
+  --color-grey-700: #495057;
+  --color-grey-900: #212529;
+
+  --radius-control: 10px;
+  --radius-card: 16px;
+}
+
+html,
+body {
+  background: var(--app-shell-background);
+}
+
+/* The centred app column. Fixed bars use the same width so they line up. */
+.shell-column {
+  width: 100%;
+  max-width: var(--shell-max-w);
+  margin-inline: auto;
+  padding-inline: var(--shell-gutter);
+}
