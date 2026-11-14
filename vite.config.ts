@@ -66,6 +66,20 @@ export default defineConfig({
         // TanStack Query owns data, and anything per-user (cart, orders)
         // must never be served from a shared cache.
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+        runtimeCaching: [
+          {
+            // Product photos: served from the cache once seen, so browsing
+            // is instant and works offline. Cross-origin (S3, placeholders)
+            // responses are opaque, hence status 0.
+            urlPattern: ({ request }) => request.destination === "image",
+            handler: "CacheFirst",
+            options: {
+              cacheName: "images",
+              expiration: { maxEntries: 300, maxAgeSeconds: 30 * 24 * 60 * 60 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
       },
       devOptions: {
         enabled: true,

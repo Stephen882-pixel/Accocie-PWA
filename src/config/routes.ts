@@ -5,6 +5,8 @@ export interface RouteMetadata {
   label: string;
   icon?: LucideIcon;
   showInTabBar: boolean;
+  /** Other paths under this tab, e.g. a product page under Home. */
+  alsoActiveOn?: string[];
 }
 
 /**
@@ -12,7 +14,13 @@ export interface RouteMetadata {
  * `showInTabBar: true`, so adding a tab means adding it here, nowhere else.
  */
 export const routes: RouteMetadata[] = [
-  { path: "/", label: "Home", icon: Home, showInTabBar: true },
+  {
+    path: "/",
+    label: "Home",
+    icon: Home,
+    showInTabBar: true,
+    alsoActiveOn: ["/products"],
+  },
   { path: "/cart", label: "Cart", icon: ShoppingCart, showInTabBar: true },
   { path: "/account", label: "Account", icon: User, showInTabBar: true },
 ];

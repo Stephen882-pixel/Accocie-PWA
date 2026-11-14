@@ -5,6 +5,7 @@ import GuestLayout from "@/app/GuestLayout";
 import RequireAuth from "@/app/RequireAuth";
 import RouteErrorBoundary from "@/app/RouteErrorBoundary";
 import Home from "@/pages/Home";
+import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
 import Account from "@/pages/Account";
 import Login from "@/pages/Login";
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
         element: <AppLayout />,
         children: [
           { path: "/", element: <Home /> },
+          { path: "/products/:id", element: <ProductDetail /> },
           { path: "/cart", element: <Cart /> },
           { path: "/account", element: <Account /> },
         ],
