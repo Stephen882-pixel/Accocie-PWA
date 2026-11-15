@@ -18,6 +18,8 @@ export interface CheckoutSummary {
   taxAmount: string;
   shippingCost: string;
   totalAmount: string;
+  /** The cart becomes one order (and one delivery) per seller. */
+  sellerCount: number;
 }
 
 export type PaymentMethod =
@@ -29,7 +31,7 @@ export interface PlaceOrderPayload {
   notes?: string;
 }
 
-/** The parts of the created order the confirmation screen shows. */
+/** The parts of each created order the confirmation screen shows. */
 export interface PlacedOrder {
   id: string;
   orderNumber: string;

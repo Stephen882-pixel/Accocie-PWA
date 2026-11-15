@@ -4,7 +4,10 @@ import type { CheckoutSummary } from "@/features/checkout/types/checkout";
 type OrderTotalsProps = Pick<
   CheckoutSummary,
   "subtotal" | "taxAmount" | "shippingCost" | "totalAmount"
->;
+> & {
+  /** Shown as "Delivery (2 sellers)" when the cart splits into several orders. */
+  sellerCount?: number;
+};
 
 const Row = ({ label, value }: { label: string; value: string }) => (
   <div className="flex justify-between text-grey-700">
@@ -19,11 +22,15 @@ const OrderTotals = ({
   taxAmount,
   shippingCost,
   totalAmount,
+  sellerCount = 1,
 }: OrderTotalsProps) => (
   <dl className="flex flex-col gap-1.5 text-sm">
     <Row label="Subtotal" value={subtotal} />
     <Row label="VAT (16%)" value={taxAmount} />
-    <Row label="Delivery" value={shippingCost} />
+    <Row
+      label={sellerCount > 1 ? `Delivery (${sellerCount} sellers)` : "Delivery"}
+      value={shippingCost}
+    />
     <div className="mt-1 flex justify-between text-[17px] font-bold">
       <dt>Total</dt>
       <dd>{formatPrice(totalAmount)}</dd>

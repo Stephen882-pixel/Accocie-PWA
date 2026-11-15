@@ -1,4 +1,10 @@
-import { Home, ShoppingCart, User, type LucideIcon } from "lucide-react";
+import {
+  Home,
+  Package,
+  ShoppingCart,
+  User,
+  type LucideIcon,
+} from "lucide-react";
 
 export interface RouteMetadata {
   path: string;
@@ -22,5 +28,6 @@ export const routes: RouteMetadata[] = [
     alsoActiveOn: ["/products"],
   },
   { path: "/cart", label: "Cart", icon: ShoppingCart, showInTabBar: true },
+  { path: "/orders", label: "Orders", icon: Package, showInTabBar: true },
   { path: "/account", label: "Account", icon: User, showInTabBar: true },
 ];

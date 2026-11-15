@@ -20,6 +20,7 @@ export const usePlaceOrder = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart"] });
       queryClient.invalidateQueries({ queryKey: ["catalog"] });
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
     },
   });
 };

@@ -14,12 +14,13 @@ export const CheckoutService = {
     return response.data.data;
   },
 
-  // The API checks stock again and deducts it as it creates the order.
-  placeOrder: async (payload: PlaceOrderPayload): Promise<PlacedOrder> => {
-    const response = await api.post<ApiSuccess<PlacedOrder>>(
+  // One order per seller. The API checks stock again and deducts it as it
+  // creates them, all or nothing.
+  placeOrder: async (payload: PlaceOrderPayload): Promise<PlacedOrder[]> => {
+    const response = await api.post<ApiSuccess<{ orders: PlacedOrder[] }>>(
       "/checkout/place-order",
       payload,
     );
-    return response.data.data;
+    return response.data.data.orders;
   },
 };

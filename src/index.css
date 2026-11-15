@@ -45,6 +45,10 @@
   --color-error-700: #b42318;
   --color-success-50: #e9f9ee;
   --color-success-700: #237a46;
+  --color-info-50: #eaf4ff;
+  --color-info-700: #1864ab;
+  --color-warning-50: #fff4e5;
+  --color-warning-700: #8a5a00;
 
   --radius-control: 10px;
   --radius-card: 16px;

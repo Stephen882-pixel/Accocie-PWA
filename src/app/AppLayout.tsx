@@ -4,6 +4,7 @@ import TabBar from "@/components/layout/TabBar";
 import { useSessionSync } from "@/features/auth/hooks/useSessionSync";
 import { useGuestCartMerge } from "@/features/cart/hooks/useGuestCartMerge";
 import { useCart } from "@/features/cart/queries/cart";
+import { useLiveUpdates } from "@/lib/sse/useLiveUpdates";
 
 /**
  * The app shell: fixed NavBar on top, fixed TabBar below, and the page
@@ -12,6 +13,7 @@ import { useCart } from "@/features/cart/queries/cart";
 const AppLayout = () => {
   useSessionSync();
   useGuestCartMerge();
+  useLiveUpdates();
   const { data: cart } = useCart();
 
   return (

@@ -56,8 +56,8 @@ const Checkout = () => {
         notes: notes.trim() || undefined,
       },
       {
-        onSuccess: (order) =>
-          navigate("/order-placed", { replace: true, state: { order } }),
+        onSuccess: (orders) =>
+          navigate("/order-placed", { replace: true, state: { orders } }),
       },
     );
   };
@@ -217,6 +217,13 @@ const Checkout = () => {
 
           <section className="border-t border-grey-300 pt-4">
             <OrderTotals {...data} />
+            {data.sellerCount > 1 ? (
+              <p className="mt-3 text-xs leading-5 text-grey-700">
+                Your items come from {data.sellerCount} sellers, so they arrive
+                as {data.sellerCount} separate orders, each with its own
+                delivery.
+              </p>
+            ) : null}
           </section>
 
           {orderError ? (

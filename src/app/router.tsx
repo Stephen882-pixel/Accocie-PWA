@@ -7,6 +7,8 @@ import RouteErrorBoundary from "@/app/RouteErrorBoundary";
 import Home from "@/pages/Home";
 import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
+import Orders from "@/pages/Orders";
+import OrderDetail from "@/pages/OrderDetail";
 import Account from "@/pages/Account";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -32,6 +34,11 @@ const router = createBrowserRouter([
           { path: "/", element: <Home /> },
           { path: "/products/:id", element: <ProductDetail /> },
           { path: "/cart", element: <Cart /> },
+          { path: "/orders", element: <Orders /> },
+          {
+            element: <RequireAuth />,
+            children: [{ path: "/orders/:id", element: <OrderDetail /> }],
+          },
           { path: "/account", element: <Account /> },
         ],
       },
