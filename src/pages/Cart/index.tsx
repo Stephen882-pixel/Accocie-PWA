@@ -95,14 +95,15 @@ const Cart = () => {
             ? "Fix the items marked above before checking out."
             : "VAT and delivery are added at checkout."}
         </p>
-        {isSignedIn ? (
-          // Checkout is the next feature to be built.
-          <Button disabled title="Checkout is coming soon">
-            Proceed to checkout
-          </Button>
-        ) : (
+        {!isSignedIn ? (
           <Link to="/login" state={{ from: "/cart" }} className={buttonClass()}>
             Sign in to check out
+          </Link>
+        ) : hasIssues ? (
+          <Button disabled>Proceed to checkout</Button>
+        ) : (
+          <Link to="/checkout" className={buttonClass()}>
+            Proceed to checkout
           </Link>
         )}
       </section>

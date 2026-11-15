@@ -15,6 +15,9 @@ import ForgotPassword from "@/pages/ForgotPassword";
 import ResetCode from "@/pages/ResetCode";
 import ResetPassword from "@/pages/ResetPassword";
 import ChangePassword from "@/pages/ChangePassword";
+import Addresses from "@/pages/Addresses";
+import Checkout from "@/pages/Checkout";
+import OrderPlaced from "@/pages/OrderPlaced";
 import SellerAccount from "@/pages/SellerAccount";
 
 const router = createBrowserRouter([
@@ -47,7 +50,12 @@ const router = createBrowserRouter([
       {
         // Screens that need a session. Signed-out users go to Sign in first.
         element: <RequireAuth />,
-        children: [{ path: "/account/password", element: <ChangePassword /> }],
+        children: [
+          { path: "/account/password", element: <ChangePassword /> },
+          { path: "/account/addresses", element: <Addresses /> },
+          { path: "/checkout", element: <Checkout /> },
+          { path: "/order-placed", element: <OrderPlaced /> },
+        ],
       },
       { path: "/seller-account", element: <SellerAccount /> },
     ],

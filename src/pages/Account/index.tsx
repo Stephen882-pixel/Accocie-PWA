@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router";
-import { ChevronRight, KeyRound } from "lucide-react";
+import { ChevronRight, KeyRound, MapPin } from "lucide-react";
 import Alert from "@/components/feedback/Alert";
 import Button from "@/components/ui/Button";
 import { buttonClass } from "@/components/ui/buttonStyles";
@@ -55,6 +55,15 @@ const Account = () => {
           meanwhile.
         </p>
       ) : null}
+
+      <Link
+        to="/account/addresses"
+        className="-mb-3 flex min-h-14 items-center gap-3 rounded-card border border-grey-300 px-4 text-[15px] font-medium"
+      >
+        <MapPin size={20} aria-hidden="true" className="text-grey-700" />
+        <span className="flex-1">Addresses</span>
+        <ChevronRight size={20} aria-hidden="true" className="text-grey-700" />
+      </Link>
 
       <Link
         to="/account/password"
