@@ -4,12 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import QueryError from "@/components/feedback/QueryError";
 import Button from "@/components/ui/Button";
+import QuantityStepper from "@/components/ui/QuantityStepper";
 import { buttonClass } from "@/components/ui/buttonStyles";
 import { toApiError } from "@/lib/api/apiError";
 import PriceTag from "@/features/catalog/components/PriceTag";
 import ProductGallery from "@/features/catalog/components/ProductGallery";
 import VariantPicker from "@/features/catalog/components/VariantPicker";
 import { productQuery } from "@/features/catalog/queries/catalog";
+import { useAddToCart } from "@/features/cart/queries/cart";
 import type { Product } from "@/features/catalog/types/catalog";
 import {
   findVariant,
@@ -31,6 +33,7 @@ const ProductView = ({ product }: { product: Product }) => {
     () => variants[0]?.options ?? {},
   );
   const [quantity, setQuantity] = useState(1);
+  const addToCart = useAddToCart();
 
   const variant = variants.length ? findVariant(variants, selected) : undefined;
   const isUnavailable = variants.length > 0 && !variant;
@@ -74,9 +77,10 @@ const ProductView = ({ product }: { product: Product }) => {
         <VariantPicker
           groups={groups}
           selected={selected}
-          onChange={(name, value) =>
-            setSelected((current) => ({ ...current, [name]: value }))
-          }
+          onChange={(name, value) => {
+            addToCart.reset();
+            setSelected((current) => ({ ...current, [name]: value }));
+          }}
         />
       ) : null}
 
@@ -89,38 +93,43 @@ const ProductView = ({ product }: { product: Product }) => {
         </section>
       ) : null}
 
-      <div className="sticky bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom))] -mx-(--shell-gutter) mt-auto flex items-center gap-3 border-t border-grey-300 bg-background px-(--shell-gutter) py-3">
-        <div
-          role="group"
-          aria-label="Quantity"
-          className="flex h-12 shrink-0 items-center rounded-full border border-grey-400"
-        >
-          <button
-            type="button"
-            aria-label="Decrease quantity"
-            disabled={shownQuantity <= 1}
-            onClick={() => setQuantity(shownQuantity - 1)}
-            className="size-11 text-xl disabled:text-grey-400"
+      <div className="sticky bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom))] -mx-(--shell-gutter) mt-auto flex flex-col gap-2 border-t border-grey-300 bg-background px-(--shell-gutter) py-3">
+        {addToCart.isSuccess ? (
+          <p role="status" className="text-sm text-success-700">
+            Added to your cart.{" "}
+            <Link to="/cart" className="font-semibold underline">
+              View cart
+            </Link>
+          </p>
+        ) : null}
+        {addToCart.error ? (
+          <p role="alert" className="text-sm text-error-700">
+            {toApiError(addToCart.error).message}
+          </p>
+        ) : null}
+        <div className="flex items-center gap-3">
+          <QuantityStepper
+            value={shownQuantity}
+            max={maxQuantity}
+            onChange={(value) => {
+              addToCart.reset();
+              setQuantity(value);
+            }}
+          />
+          <Button
+            disabled={stock <= 0}
+            isLoading={addToCart.isPending}
+            onClick={() =>
+              addToCart.mutate({
+                productId: product.id,
+                variantId: variant?.id,
+                quantity: shownQuantity,
+              })
+            }
           >
-            −
-          </button>
-          <span aria-live="polite" className="w-6 text-center font-semibold">
-            {shownQuantity}
-          </span>
-          <button
-            type="button"
-            aria-label="Increase quantity"
-            disabled={shownQuantity >= maxQuantity}
-            onClick={() => setQuantity(shownQuantity + 1)}
-            className="size-11 text-xl disabled:text-grey-400"
-          >
-            +
-          </button>
+            {stock <= 0 ? "Out of stock" : "Add to cart"}
+          </Button>
         </div>
-        {/* The cart is the next feature; until then this cannot add anything. */}
-        <Button disabled title="Adding to cart is coming soon">
-          Add to cart
-        </Button>
       </div>
     </>
   );
